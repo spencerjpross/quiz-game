@@ -8,11 +8,28 @@
     <title>Spencer's Quiz Game</title>
   </head>
   <body>
-      <nav>
+      <!-- <nav>
           <div id="highscores"><a href = "">View Hiscores</a></div>
-          <div id="timer"><span>Time Left</span></div>
-      </nav>
-
+          <div class="time-box">
+              <h3>Time Left:</h3>
+              <section id="timer"></section>
+            </div>
+      </nav> -->
+      <section id="container">
+          <div id="question-container" class="hide">
+              <div id="question">Question</div>
+              <div id="answer-buttons" class="button-grid">
+                  <button class="button">Answer 1</button>
+                  <button class="button">Answer 2</button>
+                  <button class="button">Answer 3</button>
+                  <button class="button">Answer 4</button>
+              </div>
+          </div>
+          <div class="control">
+              <button id="start-button" class="start-button button">Start</button>
+              <button id="next-button" class="next-button hide button">Next</button>
+          </div>
+      </section>
     <script src="script.js"></script>
   </body>
 </html>
