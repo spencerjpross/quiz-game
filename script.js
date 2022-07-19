@@ -9,8 +9,7 @@ const enterHiscoreEl = document.getElementById('enter-hiscore')
 const cardEl = document.getElementById('card')
 const saveButton = document.getElementById('save')
 const highscoreList = document.getElementById('highscore-list')
-let li = document.createElement("li")
-li.setAttribute("data-index", i)
+let allScores =localStorage.getItem('allScores')||[]
 
 let questionCounter = 0
 const scorePoints = 100
@@ -18,7 +17,7 @@ const maxQuestions = 7
 
 let shuffledQuestions
 let currentQuestionIndex
-let playerScore
+let playerScore = 0
 let timeLeft = 30;
 
 
@@ -66,7 +65,9 @@ function showQuestion(question) {
         button.innerText = answer.text
         button.classList.add('button')
         if (answer.correct) {
-            button.dataset.correct = answer.correct
+            button.dataset.correct = true
+        } else {
+            button.dataset.incorrect = false
         }
         button.addEventListener('click', selectAnswer) 
             answerEl.appendChild(button)
@@ -83,7 +84,13 @@ function resetQuestion() {
 
 function selectAnswer(e) {
     const selectedButton = e.target
+    // console.log(selectedButton)
     const correct = selectedButton.dataset.correct
+    console.log(playerScore)
+    if (selectedButton.dataset.correct === true){
+        playerScore++ 
+        scoreEl.textContent = playerScore
+    }
     setStatusClass(document.body, correct)
     Array.from(answerEl.children).forEach(button => {
         setStatusClass(button, button.dataset.correct)
@@ -121,6 +128,41 @@ function clearStatusClass(element) {
     element.classList.remove('correct')
     element.classList.remove('incorrect')
 }
+
+
+function saveLastScore() {
+    var userScore = {
+    //username should be a variable that is tied to the input field 
+      name: username.value,
+      score: playerscore.value,
+    };
+    allScores.push(userScore)
+    // Use .setItem() to store object in storage and JSON.stringify to convert it as a string
+    localStorage.setItem("lastScore", JSON.stringify(allScores));
+  }
+  
+  function renderLastScore() {
+    var lastScore = JSON.parse(localStorage.getItem("lastScore"));
+    if (lastScore !== null) {
+    document.getElementById("saved-name").innerHTML = lastScore[lastScore.length -1].name;
+    document.getElementById("saved-score").innerHTML = lastScore[lastScore.length -1].score;
+    for(let i=0; i < lastScore.length; i++){
+        let li = document.createElement("li")
+        highscoreList.appendChild(li).innerHTML = "Name: " + lastScore[i].name + "<br>" + "Score: " + lastScore[i].score;
+    }   return;
+    }
+  }
+
+  saveButton.addEventListener("click", function(event) {
+    event.preventDefault();
+    saveLastScore();
+    renderLastScore();
+    });
+
+    function init() {
+        renderLastScore();
+    }
+      init();
 
 const questions = [
     {
@@ -187,37 +229,3 @@ const questions = [
         ]
     }
 ]
-
-
-function saveLastScore() {
-    var userScore = {
-      name: username.value,
-      score: playerscore.value,
-    };
-    // Use .setItem() to store object in storage and JSON.stringify to convert it as a string
-    localStorage.setItem("lastScore", JSON.stringify(userScore));
-  }
-  
-  function renderLastScore() {
-    var lastScore = JSON.parse(localStorage.getItem("lastScore"));
-    if (lastScore !== null) {
-    document.getElementById("saved-name").innerHTML = lastScore.name;
-    document.getElementById("saved-score").innerHTML = lastScore.score;
-    // highscoreList.appendChild(li).innerHTML = "Name: " + lastScore.name + "<br>" + "Score: " + lastScore.score;
-    } else {
-      return;
-    }
-  }
-
-let list = []
-
-  saveButton.addEventListener("click", function(event) {
-    event.preventDefault();
-    saveLastScore();
-    renderLastScore();
-    });
-
-    function init() {
-        renderLastScore();
-    }
-      init();
