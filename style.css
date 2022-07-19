@@ -117,3 +117,18 @@ nav {
 .hide {
     display: none;
 }
+
+#enter-hiscore {
+    margin-top: 25px;
+}
+
+#card {
+    margin-top: 200px;
+}
+
+#highscore-list {
+}
+
+ul {
+    margin: 10px;
+}

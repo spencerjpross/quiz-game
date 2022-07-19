@@ -4,12 +4,23 @@ const nextButton = document.getElementById("next-button")
 const questionContainerEl = document.getElementById("question-container")
 const questionEl = document.getElementById('question')
 const answerEl = document.getElementById('answer-buttons')
+const scoreEl = document.getElementById('score')
+const enterHiscoreEl = document.getElementById('enter-hiscore')
+const cardEl = document.getElementById('card')
+const saveButton = document.getElementById('save')
+const highscoreList = document.getElementById('highscore-list')
+let li = document.createElement("li")
+li.setAttribute("data-index", i)
 
+let questionCounter = 0
+const scorePoints = 100
+const maxQuestions = 7
 
 let shuffledQuestions
 let currentQuestionIndex
-let playerScore = 0
+let playerScore
 let timeLeft = 30;
+
 
 startButton.addEventListener("click", startQuiz)
 nextButton.addEventListener('click', () => {
@@ -19,9 +30,12 @@ nextButton.addEventListener('click', () => {
 
 function startQuiz(){
     startButton.classList.add("hide")
+    enterHiscoreEl.classList.add('hide')
+    // cardEl.classList.add('hide')
     questionContainerEl.classList.remove("hide")
     shuffledQuestions = questions.sort(() => Math.random() -.5)
     currentQuestionIndex = 0
+    playerScore = 0
     nextQuestion()
 }
 
@@ -44,12 +58,6 @@ function timesUp() {
 
 setTime();
 
-
-
-function nextQuestion() {
-    resetQuestion()
-    showQuestion(shuffledQuestions[currentQuestionIndex])
-}
 
 function showQuestion(question) {
     questionEl.innerText = question.question
@@ -85,10 +93,20 @@ function selectAnswer(e) {
     } else {
         startButton.innerText = 'Restart'
         startButton.classList.remove('hide')
+        enterHiscoreEl.classList.remove('hide')
+        // cardEl.classList.remove('hide')
     }
 } 
 
+function nextQuestion() {
+    resetQuestion()
+    showQuestion(shuffledQuestions[currentQuestionIndex])
+    // if (currentQuestionIndex > maxQuestions) {
+    //     localStorage.setItem('mostRecentScore', score)
+    //     return window.location.assign('/end.html')
+    // }
 
+}
 
 function setStatusClass(element, correct) {
     clearStatusClass(element)
@@ -167,5 +185,39 @@ const questions = [
             {text: "Chicago Bulls", correct: true},
             {text: "LA Lakers", correct: false}
         ]
-    },
+    }
 ]
+
+
+function saveLastScore() {
+    var userScore = {
+      name: username.value,
+      score: playerscore.value,
+    };
+    // Use .setItem() to store object in storage and JSON.stringify to convert it as a string
+    localStorage.setItem("lastScore", JSON.stringify(userScore));
+  }
+  
+  function renderLastScore() {
+    var lastScore = JSON.parse(localStorage.getItem("lastScore"));
+    if (lastScore !== null) {
+    document.getElementById("saved-name").innerHTML = lastScore.name;
+    document.getElementById("saved-score").innerHTML = lastScore.score;
+    // highscoreList.appendChild(li).innerHTML = "Name: " + lastScore.name + "<br>" + "Score: " + lastScore.score;
+    } else {
+      return;
+    }
+  }
+
+let list = []
+
+  saveButton.addEventListener("click", function(event) {
+    event.preventDefault();
+    saveLastScore();
+    renderLastScore();
+    });
+
+    function init() {
+        renderLastScore();
+    }
+      init();
