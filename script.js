@@ -84,12 +84,11 @@ function resetQuestion() {
 
 function selectAnswer(e) {
     const selectedButton = e.target
-    // console.log(selectedButton)
     const correct = selectedButton.dataset.correct
-    console.log(playerScore)
-    if (selectedButton.dataset.correct === true){
+    if (correct){
         playerScore++ 
         scoreEl.textContent = playerScore
+        console.log(playerScore)
     }
     setStatusClass(document.body, correct)
     Array.from(answerEl.children).forEach(button => {
@@ -101,7 +100,6 @@ function selectAnswer(e) {
         startButton.innerText = 'Restart'
         startButton.classList.remove('hide')
         enterHiscoreEl.classList.remove('hide')
-        // cardEl.classList.remove('hide')
     }
 } 
 
