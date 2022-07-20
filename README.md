@@ -8,8 +8,8 @@ Integrated CSS into this project and utilized background colors on CSS to show w
 
 Created an array of questions and called upon that array with functions for the game.  
 
-Live URL: 
+Live URL:  https://spencerjpross.github.io/quiz-game/
 
-My Repo with the code: 
+My Repo with the code: https://github.com/spencerjpross/quiz-game
 
 ![alt screenshot](/images/quiz-game.png)
